@@ -11117,7 +11117,7 @@ p {
   align-items: center;
 }
 .item .controls button {
-  background-color: #ff6b6b;
+  background-color: #ff6600;
   color: white;
   border: none;
   padding: 5px;
@@ -11154,5 +11154,12 @@ body {
 
 .btn-primary {
   background-color: #ff6600;
+  border: none;
+}
+
+/* login  */
+
+.btn-secondary {
+  background-color: #f44336;
   border: none;
 }

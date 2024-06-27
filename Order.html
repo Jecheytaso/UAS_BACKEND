@@ -33,7 +33,7 @@
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="Booking.html">Booking</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="Order.html">Food Order</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="log in.html" data-bs-target="#signupModal">Login</a></li>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a></li>
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a></li>
                 </ul>
             </div>
         </div>
@@ -51,10 +51,10 @@
                     <div class="info">
                         <h2>★ Mi-Sundae Oreo</h2>
                         <p>Ice Cream Dengan Coklat Dan Taburan Oreo Yang Renyah</p>
-                        <p class="price">18.000</p>
+                        <p class="price">18000</p>
                     </div>
                     <div class="btn-container" id="mi-sundae-oreo">
-                        <button class="btn" onclick="addItem('mi-sundae-oreo')">+</button>
+                        <button class="btn" onclick="addItem('Mi-Sundae Oreo', 18000)">+</button>
                     </div>
                 </div>
 
@@ -63,10 +63,10 @@
                     <div class="info">
                         <h2>Berry Bean Sundae</h2>
                         <p>Ice Cream Berpadu Dengan Red Bean Yang Lembut Serta Selai Strawberry</p>
-                        <p class="price">18.000</p>
+                        <p class="price">18000</p>
                     </div>
                     <div class="btn-container" id="berry-bean-sundae">
-                        <button class="btn" onclick="addItem('berry-bean-sundae')">+</button>
+                        <button class="btn" onclick="addItem('Berry Bean Sundae', 18000)">+</button>
                     </div>
                 </div>
 
@@ -75,10 +75,10 @@
                     <div class="info">
                         <h2>★ Lucky Sundae Chocolate</h2>
                         <p>Ice Cream Dengan Saus Chocolate Serta Kejutan Topping Dibawahnya</p>
-                        <p class="price">18.000</p>
+                        <p class="price">18000</p>
                     </div>
                     <div class="btn-container" id="lucky-sundae-chocolate">
-                        <button class="btn" onclick="addItem('lucky-sundae-chocolate')">+</button>
+                        <button class="btn" onclick="addItem('Lucky Sundae Chocolate', 18000)">+</button>
                     </div>
                 </div>
 
@@ -87,10 +87,10 @@
                     <div class="info">
                         <h2>★ Mi-Sundae Boba</h2>
                         <p>Ice Cream Berpadu Dengan Pearl Yang Kenyal Serta Selai Brown Sugar</p>
-                        <p class="price">18.000</p>
+                        <p class="price">18000</p>
                     </div>
                     <div class="btn-container" id="mi-sundae-boba">
-                        <button class="btn" onclick="addItem('mi-sundae-boba')">+</button>
+                        <button class="btn" onclick="addItem('Mi-Sundae Boba', 18000)">+</button>
                     </div>
                 </div>
 
@@ -99,10 +99,10 @@
                     <div class="info">
                         <h2>Kiwi Grape Sundae</h2>
                         <p>Ice Cream Berpadu Dengan Fresh Kiwi Dan Fresh Anggur</p>
-                        <p class="price">18.000</p>
+                        <p class="price">18000</p>
                     </div>
                     <div class="btn-container" id="kiwi-grape-sundae">
-                        <button class="btn" onclick="addItem('kiwi-grape-sundae')">+</button>
+                        <button class="btn" onclick="addItem('Kiwi Grape Sundae', 18000)">+</button>
                     </div>
                 </div>
 
@@ -111,10 +111,10 @@
                     <div class="info">
                         <h2>★ Ice Cream Black Tea</h2>
                         <p>Black Tea Dengan Ice Cream Lembut Di Atasnya</p>
-                        <p class="price">15.000</p>
+                        <p class="price">15000</p>
                     </div>
                     <div class="btn-container" id="ice-cream-black-tea">
-                        <button class="btn" onclick="addItem('ice-cream-black-tea')">+</button>
+                        <button class="btn" onclick="addItem('Ice Cream Black Tea', 15000)">+</button>
                     </div>
                 </div>
 
@@ -165,36 +165,58 @@
  
     <!-- script fungsi button + di bagian menu  -->
     <script>
-        function addItem(itemId) {
-            const itemContainer = document.getElementById(itemId);
+        function addItem(itemName, itemPrice) {
+            const itemContainer = document.getElementById(itemName.replace(/\s+/g, '-').toLowerCase());
             itemContainer.innerHTML = `
-                <button class="btn" onclick="removeItem('${itemId}')">-</button>
+                <button class="btn" onclick="removeItem('${itemName}', ${itemPrice})">-</button>
                 <span class="count">1</span>
-                <button class="btn" onclick="increaseItem('${itemId}')">+</button>
+                <button class="btn" onclick="increaseItem('${itemName}', ${itemPrice})">+</button>
             `;
+
+            updateCart(itemName, itemPrice, 1);
         }
 
-        function removeItem(itemId) {
-            const itemContainer = document.getElementById(itemId);
+        function removeItem(itemName, itemPrice) {
+            const itemContainer = document.getElementById(itemName.replace(/\s+/g, '-').toLowerCase());
             const countElement = itemContainer.querySelector('.count');
             let count = parseInt(countElement.textContent);
 
             if (count > 1) {
                 count--;
                 countElement.textContent = count;
+                updateCart(itemName, itemPrice, -1);
             } else {
                 itemContainer.innerHTML = `
-                    <button class="btn" onclick="addItem('${itemId}')">+</button>
+                    <button class="btn" onclick="addItem('${itemName}', ${itemPrice})">+</button>
                 `;
+                updateCart(itemName, itemPrice, -1);
             }
         }
 
-        function increaseItem(itemId) {
-            const itemContainer = document.getElementById(itemId);
+        function increaseItem(itemName, itemPrice) {
+            const itemContainer = document.getElementById(itemName.replace(/\s+/g, '-').toLowerCase());
             const countElement = itemContainer.querySelector('.count');
             let count = parseInt(countElement.textContent);
             count++;
             countElement.textContent = count;
+
+            updateCart(itemName, itemPrice, 1);
+        }
+
+        function updateCart(itemName, itemPrice, change) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || {};
+
+            if (!cart[itemName]) {
+                cart[itemName] = { price: itemPrice, quantity: 0 };
+            }
+
+            cart[itemName].quantity += change;
+
+            if (cart[itemName].quantity <= 0) {
+                delete cart[itemName];
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
         }
     </script>
     <!-- end code fungsi button + di bagian menu -->
